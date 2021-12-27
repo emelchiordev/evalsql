@@ -20,17 +20,17 @@ CREATE table movies (
 );
 
 CREATE TABLE users(
-	id serial PRIMARY KEY,
+	id UUID NOT NULL PRIMARY KEY,
 	name VARCHAR(30) NOT NULL,
 	email VARCHAR(50) NOT NULL,
-	password UUID NOT NULL,
+	password VARCHAR(60) NOT NULL,
 	isAdmin boolean
 );
 
 
 CREATE TABLE complex (
 	id serial PRIMARY KEY,
-	users_id INT NOT NULL,
+	users_id UUID NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	address VARCHAR(200) NOT NULL,
 	FOREIGN KEY (users_id) REFERENCES users(id)
@@ -47,7 +47,7 @@ CREATE TABLE rooms (
 
 CREATE table sessions (
 	id serial PRIMARY KEY,
-	users_id INT NOT NULL,
+	users_id UUID NOT NULL,
 	movie_id INT NOT NULL,
 	complex_id INT NOT NULL,
 	dateSession DATE NOT NULL,
@@ -107,21 +107,21 @@ insert into movies (title, description) values ('Hannie Caulder', 'Comedy|Crime|
 insert into movies (title, description) values ('Old Gringo', 'Drama');
 
 -- CREATION DES USERS
-insert into users (name, email, password) values ('john', 'cscrymgeour0@cpanel.net', '1ae2825f-b9e9-4b9a-b0bc-90c8aaad3f11');
-insert into users (name, email, password) values ('sophie', 'ycleverley1@wp.com', '4497a75e-f1d9-46ca-b7ec-ca2bc3f065f1');
-insert into users (name, email, password) values ('magalie', 'bbulfield2@rambler.ru', 'a1ba0b17-d714-4868-a61e-bdfbb086b404');
-insert into users (name, email, password) values ('kevin', 'lharm3@fc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
-insert into users (name,email, password) values ('audrey','lhassdfm3@0dsc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
+insert into users (id, name, email, password) values ('21453025-ccb8-48e8-aa7a-cc0e7aefc939','john', 'cscrymgeour0@cpanel.net', '$2a$12$Pw4nnAzVMnOFdMswmhyowessdYQBRzLeqqYGQVn5LCx3MkzagyrmG');
+insert into users (id, name, email, password) values ('ec21011a-d47d-484b-8af5-3c171e6fcd6a','sophie', 'ycleverley1@wp.com', '$2a$12$Iln7bFZBBtm1MoIuaciGtem6HL4o5RW/uARHFfJQYGLJWfgRmgvIK');
+insert into users (id, name, email, password) values ('70371634-6b30-48a2-8adb-e899bd71ef0e','magalie', 'bbulfield2@rambler.ru', '$2a$12$UxAdH9w/reiHfNSxYyq0Tu75F6aUTpuOgZdEUORcMcZlkXrugQVli');
+insert into users (id, name, email, password) values ('5b4e3d95-ec16-46a6-a80c-c5e7b3c686a5','kevin', 'lharm3@fc2.com', '$2a$12$5oc.y6NNtkRtSRAeQXYyg.ZXQ.hsje.yUER6KHhh7Vn5Ee.MkuY3i');
+insert into users (id, name, email, password) values ('c2b0dc23-aa9d-4b96-85ea-2cfe9e5f7fd8','audrey','lhassdfm3@0dsc2.com', '$2a$12$HeMrYw5//IGRa/ISKPmwLOej5NV9floQio6oFdQh0ZIhUqQmXG9iu');
 
 -- CREATION D'UN ADMINISTRATEUR
-insert into users (name, email, password, isAdmin) values ('odyssee', 'odyssee@cpanel.net', '1ae2825f-b9e9-4b9a-b0bc-90c8aaad3f11',true);
+insert into users (id, name, email, password, isAdmin) values ('0bca2849-76a6-4231-8119-118907a1a19f','odyssee', 'odyssee@cpanel.net', '$2a$12$o0bzsUHOxyPYMv56rU7j7OTmzHK36LsQbuybhwDQGLKP4DHujj1Q2',true);
 
 
 -- CREATION DES COMPLEXES
-insert into complex (name, address, users_id) values ('Home Ing', '50 Old Gate Alley',1);
-insert into complex (name, address, users_id) values ('It', '4 Gerald Avenue',2);
-insert into complex (name, address, users_id) values ('Wrapsafe', '14683 Fair Oaks Terrace',3);
-insert into complex (name, address, users_id) values ('Voltsillam', '2 Kings Drive',4);
+insert into complex (name, address, users_id) values ('Home Ing', '50 Old Gate Alley','21453025-ccb8-48e8-aa7a-cc0e7aefc939');
+insert into complex (name, address, users_id) values ('It', '4 Gerald Avenue','ec21011a-d47d-484b-8af5-3c171e6fcd6a');
+insert into complex (name, address, users_id) values ('Wrapsafe', '14683 Fair Oaks Terrace','70371634-6b30-48a2-8adb-e899bd71ef0e');
+insert into complex (name, address, users_id) values ('Voltsillam', '2 Kings Drive','c2b0dc23-aa9d-4b96-85ea-2cfe9e5f7fd8');
 
 -- CREATION DES SALLES
 insert into rooms (complex_id, name, totalSeats) values (1, 'Bigtax', 300);
@@ -137,12 +137,12 @@ insert into rooms (complex_id, name, totalSeats) values (4, 'Job', 300);
 
 -- CREATION DES SEANCES
 insert into sessions (users_id, movie_id, complex_id, dateSession, startHour, endHour) values
-(1,1,1,'2021-12-12','20:00:00','21:12:00'),
-(1,2,1,'2021-12-26','20:00:00','21:40:00'),
-(1,3,1,'2021-12-31','20:00:00','21:30:00'),
-(2,1,2,'2022-01-12','20:00:00','21:12:00'),
-(3,3,3,'2021-12-31','20:00:00','21:30:00'),
-(4,1,4,'2022-01-12','20:00:00','21:12:00')
+('21453025-ccb8-48e8-aa7a-cc0e7aefc939',1,1,'2021-12-12','20:00:00','21:12:00'),
+('21453025-ccb8-48e8-aa7a-cc0e7aefc939',2,1,'2021-12-26','20:00:00','21:40:00'),
+('21453025-ccb8-48e8-aa7a-cc0e7aefc939',3,1,'2021-12-31','20:00:00','21:30:00'),
+('ec21011a-d47d-484b-8af5-3c171e6fcd6a',1,2,'2022-01-12','20:00:00','21:12:00'),
+('70371634-6b30-48a2-8adb-e899bd71ef0e',3,3,'2021-12-31','20:00:00','21:30:00'),
+('c2b0dc23-aa9d-4b96-85ea-2cfe9e5f7fd8',1,4,'2022-01-12','20:00:00','21:12:00')
 ;
 
 -- CREATION DES RESERVATIONS
