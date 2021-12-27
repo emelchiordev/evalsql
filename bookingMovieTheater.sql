@@ -113,6 +113,10 @@ insert into users (name, email, password) values ('magalie', 'bbulfield2@rambler
 insert into users (name, email, password) values ('kevin', 'lharm3@fc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
 insert into users (name,email, password) values ('audrey','lhassdfm3@0dsc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
 
+-- CREATION D'UN ADMINISTRATEUR
+insert into users (name, email, password, isAdmin) values ('odyssee', 'odyssee@cpanel.net', '1ae2825f-b9e9-4b9a-b0bc-90c8aaad3f11',true);
+
+
 -- CREATION DES COMPLEXES
 insert into complex (name, address, users_id) values ('Home Ing', '50 Old Gate Alley',1);
 insert into complex (name, address, users_id) values ('It', '4 Gerald Avenue',2);
