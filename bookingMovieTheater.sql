@@ -2,6 +2,8 @@ CREATE DATABASE MovieTheaterBooking;
 CREATE USER admin_odyssee WITH ENCRYPTED PASSWORD 've45vetlor';
 GRANT ALL PRIVILEGES ON DATABASE MovieTheaterBooking TO admin_odyssee;
 
+CREATE SEQUENCE ticket_booking MINVALUE 0 MAXVALUE 9999 CYCLE;
+
 CREATE table customers (
 	id serial PRIMARY KEY,
 	firstName VARCHAR(50) NOT NULL,
@@ -19,14 +21,12 @@ CREATE table movies (
 
 CREATE TABLE users(
 	id serial PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
 	email VARCHAR(50) NOT NULL,
-	password UUID NOT NULL
+	password UUID NOT NULL,
+	isAdmin boolean
 );
 
-CREATE TABLE admins(
-	users_id serial PRIMARY KEY,
-	FOREIGN KEY(users_id) REFERENCES users(id)
-);
 
 CREATE TABLE complex (
 	id serial PRIMARY KEY,
@@ -70,7 +70,7 @@ CREATE table bookings (
 	session_id INT NOT NULL,
 	customer_id INT NOT NULL,
 	price_id INT NOT NULL,
-	bookingNumber VARCHAR(10) NOT NULL UNIQUE,
+	bookingNumber VARCHAR(30) NOT NULL,
 	dateBooking date NOT NULL,
 	FOREIGN KEY (customer_id) REFERENCES customers(id),
 	FOREIGN KEY (session_id) REFERENCES sessions(id),
@@ -107,14 +107,14 @@ insert into movies (title, description) values ('Hannie Caulder', 'Comedy|Crime|
 insert into movies (title, description) values ('Old Gringo', 'Drama');
 
 -- CREATION DES USERS
-insert into users (email, password) values ('cscrymgeour0@cpanel.net', '1ae2825f-b9e9-4b9a-b0bc-90c8aaad3f11');
-insert into users (email, password) values ('ycleverley1@wp.com', '4497a75e-f1d9-46ca-b7ec-ca2bc3f065f1');
-insert into users (email, password) values ('bbulfield2@rambler.ru', 'a1ba0b17-d714-4868-a61e-bdfbb086b404');
-insert into users (email, password) values ('lharm3@fc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
-insert into users (email, password) values ('lhassdfm3@0dsc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
+insert into users (name, email, password) values ('john', 'cscrymgeour0@cpanel.net', '1ae2825f-b9e9-4b9a-b0bc-90c8aaad3f11');
+insert into users (name, email, password) values ('sophie', 'ycleverley1@wp.com', '4497a75e-f1d9-46ca-b7ec-ca2bc3f065f1');
+insert into users (name, email, password) values ('magalie', 'bbulfield2@rambler.ru', 'a1ba0b17-d714-4868-a61e-bdfbb086b404');
+insert into users (name, email, password) values ('kevin', 'lharm3@fc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
+insert into users (name,email, password) values ('audrey','lhassdfm3@0dsc2.com', '466f7b2c-942e-422d-91b3-98dab2b6798c');
 
--- CREATION D'UN USER ADMIN
-insert into admins (users_id) values (4);
+-- CREATION D'UN ADMINISTRATEUR
+insert into users (name, email, password, isAdmin) values ('odyssee', 'odyssee@cpanel.net', '1ae2825f-b9e9-4b9a-b0bc-90c8aaad3f11',true);
 
 
 -- CREATION DES COMPLEXES
@@ -147,9 +147,9 @@ insert into sessions (users_id, movie_id, complex_id, dateSession, startHour, en
 
 -- CREATION DES RESERVATIONS
 insert into bookings (session_id, customer_id, price_id, bookingNumber, dateBooking) values
-(1,1,1,'NUM-001','2021-11-10'),
-(1,2,3,'NUM-002','2021-11-10'),
-(1,3,2,'NUM-003','2021-11-10')
+(1,1,1,CONCAT(CURRENT_DATE,'-',nextval('ticket_booking')),'2021-11-10'),
+(1,2,3,CONCAT(CURRENT_DATE,'-',nextval('ticket_booking')),'2021-11-10'),
+(1,3,2,CONCAT(CURRENT_DATE,'-',nextval('ticket_booking')),'2021-11-10')
 ;
 
 -- CREATION DES PAIEMENTS
