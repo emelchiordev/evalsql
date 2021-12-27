@@ -2,6 +2,8 @@ CREATE DATABASE MovieTheaterBooking;
 CREATE USER admin_odyssee WITH ENCRYPTED PASSWORD 've45vetlor';
 GRANT ALL PRIVILEGES ON DATABASE MovieTheaterBooking TO admin_odyssee;
 
+CREATE SEQUENCE ticket_booking MINVALUE 0 MAXVALUE 9999 CYCLE;
+
 CREATE table customers (
 	id serial PRIMARY KEY,
 	firstName VARCHAR(50) NOT NULL,
@@ -70,7 +72,7 @@ CREATE table bookings (
 	session_id INT NOT NULL,
 	customer_id INT NOT NULL,
 	price_id INT NOT NULL,
-	bookingNumber VARCHAR(10) NOT NULL UNIQUE,
+	bookingNumber VARCHAR(30) NOT NULL,
 	dateBooking date NOT NULL,
 	FOREIGN KEY (customer_id) REFERENCES customers(id),
 	FOREIGN KEY (session_id) REFERENCES sessions(id),
@@ -147,9 +149,9 @@ insert into sessions (users_id, movie_id, complex_id, dateSession, startHour, en
 
 -- CREATION DES RESERVATIONS
 insert into bookings (session_id, customer_id, price_id, bookingNumber, dateBooking) values
-(1,1,1,'NUM-001','2021-11-10'),
-(1,2,3,'NUM-002','2021-11-10'),
-(1,3,2,'NUM-003','2021-11-10')
+(1,1,1,CONCAT(CURRENT_DATE,'-',nextval('ticket_booking')),'2021-11-10'),
+(1,2,3,CONCAT(CURRENT_DATE,'-',nextval('ticket_booking')),'2021-11-10'),
+(1,3,2,CONCAT(CURRENT_DATE,'-',nextval('ticket_booking')),'2021-11-10')
 ;
 
 -- CREATION DES PAIEMENTS
