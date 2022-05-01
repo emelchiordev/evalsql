@@ -1,4 +1,4 @@
-CREATE DATABASE MovieTheaterBooking;
+CREATE DATABASE MovieTheaterBooking ENCODING 'UTF8';
 CREATE USER admin_odyssee WITH ENCRYPTED PASSWORD 've45vetlor';
 GRANT ALL PRIVILEGES ON DATABASE MovieTheaterBooking TO admin_odyssee;
 
